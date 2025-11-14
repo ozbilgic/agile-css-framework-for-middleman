@@ -1,4 +1,4 @@
-# Agile CSS Framework v.2.1.4
+# Agile CSS Framework For Middleman v2.1.4
 ### Agile and Smart CSS/SCSS coding library for Middleman projects
 
 **[Türkçe](README.tr.md)** | **English**
@@ -33,7 +33,7 @@ Version
 
    ```bash
    # In project root directory
-   git clone https://github.com/ozbilgic/sass-scss-agile-css-framework.git vendor/agile-css
+   git clone https://github.com/ozbilgic/agile-css-framework-for-middleman.git vendor/agile-css
    # or download and extract to vendor folder
    ```
 

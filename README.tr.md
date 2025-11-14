@@ -1,5 +1,4 @@
-# Agile CSS Framework v.2.1.4
-### Middleman projeleri için Agile ve Akıllı CSS/SCSS kodlama kütüphanesi
+### Middleman projeleri için Hızlı ve Akıllı CSS/SCSS kodlama kütüphanesi v2.1.4
 
 **Türkçe** | **[English](README.md)**
 
@@ -33,7 +32,7 @@ Versiyon
 
    ```bash
    # Proje kök dizininde
-   git clone https://github.com/ozbilgic/sass-scss-agile-css-framework.git vendor/agile-css
+   git clone https://github.com/ozbilgic/agile-css-framework-for-middleman.git vendor/agile-css
    # veya indirip vendor klasörüne çıkartın
    ```
 
