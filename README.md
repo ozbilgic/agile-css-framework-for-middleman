@@ -1,9 +1,23 @@
-# XCODE Agile CSS Mixin Framework v.2.1.4
-### Agile and Smart CSS coding library.
+# Agile CSS Framework v.2.1.4
+### Agile and Smart CSS/SCSS coding library for Middleman projects
 
+**[Türkçe](README.tr.md)** | **English**
 
 ![Cross-Browser-Support](https://cloud.githubusercontent.com/assets/6649597/14348854/c04152a0-fcc7-11e5-9e5f-035d3a683d85.png)
 
+
+## Overview
+
+**Agile CSS Framework** is a powerful and flexible SASS/SCSS mixin library designed for Ruby-based Middleman static site generator. This framework is designed to accelerate your modern web development process and make your code more readable and reusable.
+
+### Why This Library?
+
+- **Optimized for Middleman**: Works seamlessly in Ruby Middleman projects
+- **Responsive Grid System**: Includes Bootstrap-compatible 12-column grid system
+- **Cross-Browser Support**: Works flawlessly across all modern browsers
+- **Ready UI Components**: Navigation, dropdown, tooltip and more
+- **CSS3 Mixins**: Animation, transition, transform and modern CSS features
+- **FontAwesome Integration**: 693 ready-to-use icons
 
 Version
 ----
@@ -11,14 +25,132 @@ Version
 2.1.4
 
 
-Usage
-----
-It is sufficient to include in your project.
+## Installation
 
-```css
-...
-@import "xcode.css.mixin.fw";
-...
+### Installation for Middleman Project
+
+1. **Add the library to your project:**
+
+   ```bash
+   # In project root directory
+   git clone https://github.com/ozbilgic/sass-scss-agile-css-framework.git vendor/agile-css
+   # or download and extract to vendor folder
+   ```
+
+2. **Update your Middleman config.rb file:**
+
+   ```ruby
+   # config.rb
+   configure :build do
+     activate :minify_css
+     activate :minify_javascript
+   end
+
+   # Add path for SCSS
+   config[:sass_assets_paths] << File.join(root, 'vendor/agile-css')
+   ```
+
+3. **Import into your main SCSS file:**
+
+   ```scss
+   // source/stylesheets/site.css.scss
+
+   @import "agile.css.scss";
+
+   // Or only for grid system:
+   @import "src/grid12";
+
+   // Your custom styles
+   .my-custom-class {
+     @include border-radius(10px);
+   }
+   ```
+
+4. **Include CSS in your layout file:**
+
+   ```erb
+   <!-- source/layouts/layout.erb -->
+   <!doctype html>
+   <html>
+     <head>
+       <%= stylesheet_link_tag :site %>
+     </head>
+     <body>
+       <%= yield %>
+     </body>
+   </html>
+   ```
+
+
+## Basic Usage
+
+### Grid System Usage
+
+```html
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">Column 1</div>
+    <div class="col-md-4">Column 2</div>
+    <div class="col-md-4">Column 3</div>
+  </div>
+</div>
+```
+
+### Mixin Usage
+
+```scss
+.my-button {
+  padding: 10px 20px;
+  background: #3498db;
+  color: white;
+
+  @include border-radius(5px);
+  @include transition(all 0.3s ease);
+  @include boshadow(0 2px 5px rgba(0,0,0,0.2));
+
+  &:hover {
+    @include transform2d(translateY(-2px));
+    @include boshadow(0 4px 8px rgba(0,0,0,0.3));
+  }
+
+  // For mobile
+  @include media($tablet) {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+```
+
+### Responsive Navigation Example
+
+```scss
+#main-nav {
+  @include horizontal-navbar(
+    $bgColor: #2c3e50,
+    $textColor: white,
+    $hoverBgColor: #34495e,
+    $activeLinkBgColor: #3498db
+  );
+}
+```
+
+
+## Integration with Middleman Helpers
+
+```ruby
+# config.rb - Helper methods
+helpers do
+  def grid_column(size, content, options = {})
+    classes = ["col-md-#{size}"]
+    classes << options[:extra_class] if options[:extra_class]
+    content_tag :div, content, class: classes.join(' ')
+  end
+end
+```
+
+```erb
+<!-- Usage -->
+<%= grid_column(4, "Content", extra_class: "my-class") %>
 ```
 
 
@@ -28,44 +160,44 @@ Features
 
 Description | Feature
 ------------ | -------------
-» [Pixel converts the "em" format.](#-pixel-converts-the-em-format) | <ul><li>**@function x-convert_em()**</li><li>*Stated "px" is "em" that converts the format.*</li></ul>
+» [Pixel converts the "em" format.](#-pixel-converts-the-em-format) | <ul><li>**@function convert_em()**</li><li>*Stated "px" is "em" that converts the format.*</li></ul>
 
 * **Mixins »**
 
 Description | Feature
 ------------ | -------------
-» [CSS3 Prefix Adding.](#-css3-prefix-adding) | <ul><li>**@mixin x-prefix()**</li><li>*It adds support for browser features.*</li></ul>
-» [Responsive Media Selector.](#-responsive-media-selector) | <ul><li>**@mixin x-media()**</li><li>*Add code for the specific screen resolutions.*</li></ul>
-» [Alternate Responsive Media Selector.](#-alternate-responsive-media-selector) | <ul><li>**@mixin x-media-query()**</li><li>*Add code for different screen resolutions.*</li></ul>
-» [Setting The Alpha Channel For Items. Support Cross Browser.](#-setting-the-alpha-channel-for-items) | <ul><li>**@mixin x-opacity()**</li><li>*It adds an alpha channel to the elements.*</li></ul>
-» [Set Border Radius.](#-set-border-radius) | <ul><li>**@mixin x-border-radius()**</li><li>*Adds border radius.*</li></ul>
-» [Set Shorthand Animation.](#-set-shorthand-animation) | <ul><li>**@mixin x-animation()**</li><li>*It allows you to enter a name and animation features.*</li></ul>
-» [Animation Creator.](#-animation-creator) | <ul><li>**@mixin x-keyframes()**</li><li>*It allows us to define a new animation.*</li></ul>
-» [Transition.](#-transition) | <ul><li>**@mixin x-transition()**</li><li>*Transitions allows you to change property values smoothly (from one value to another), over a given duration.*</li></ul>
-» [2D Transforms.](#-2d-transforms) | <ul><li>**@mixin x-transform2d()**</li><li>*Transforms allow you to translate, rotate, scale, and skew elements.*</li></ul>
-» [3D Transforms.](#-3d-transforms) | <ul><li>**@mixin x-transform3d()**</li><li>*Allows you to format your elements using 3D transformations.*</li></ul>
-» [Change Input Placeholder Attributes.](#-change-input-placeholder-attributes) | <ul><li>**@mixin x-change-input-placeholder()**</li><li>*Use to change the input placeholders properties.*</li></ul>
-» [Horizontal Navigation Bar.](#-horizontal-navigation-bar) | <ul><li>**@mixin x-horizontal-navbar()**</li><li>*Use it to add a horizontal menu.*</li></ul>
-» [Vertical Navigation Bar.](#-vertical-navigation-bar) | <ul><li>**@mixin x-vertical-navbar()**</li><li>*Use it to add a vertical menu.*</li></ul>
-» [Dropdown.](#-dropdown) | <ul><li>**@mixin x-dropdown()**</li><li>*Add drop-down.*</li></ul>
-» [Tooltip.](#-tooltip) | <ul><li>**@mixin x-tooltip()**</li><li>*Add tooltip.*</li></ul>
-» [Box Shadow.](#-box-shadow) | <ul><li>**@mixin x-box-shadow()**</li><li>*Add box shadow.*</li></ul>
-» [Gradients.](#-gradients) | <ul><li>**@mixin x-gradient()**</li><li>*Add gradient.*</li></ul>
-» [Image Filters.](#-image-filters) | <ul><li>**@mixin x-image-filter()**</li><li>*Use it to add effects or filter to images.*</li></ul>
-» [Button animation.](#-button-animation) | <ul><li>**@mixin x-button-animation()**</li><li>*Create animated buttons.*</li></ul>
-» [Font Icon.](#-font-icon) | <ul><li>**@mixin x-icon()**</li><li>*Add icon in the color and size you want. There are 693 icons.*</li></ul>
-» [Font Selector.](#-font-selector) | <ul><li>**@mixin x-font()**</li><li>*Use practical way to add fonts to the elements.*</li></ul>
-» [Menu Button.](#-menu-button) | <ul><li>**@mixin x-menu-button()**</li><li>*Add menu button for mobile views.*</li></ul>
-» [Triangle.](#-triangle) | <ul><li>**@mixin x-triangle()**</li><li>*To add any element of the triangle.*</li></ul>
-» [Text Shadow.](#-text-shadow) | <ul><li>**@mixin x-text-shadow()**</li><li>*To add text element of the shadow.*</li></ul>
-» [Info Bar.](#-info-bar) | <ul><li>**@mixin x-infobar()**</li><li>*Add infobar on the screen.*</li></ul>
+» [CSS3 Prefix Adding.](#-css3-prefiadding) | <ul><li>**@mixin prefix()**</li><li>*It adds support for browser features.*</li></ul>
+» [Responsive Media Selector.](#-responsive-media-selector) | <ul><li>**@mixin media()**</li><li>*Add code for the specific screen resolutions.*</li></ul>
+» [Alternate Responsive Media Selector.](#-alternate-responsive-media-selector) | <ul><li>**@mixin media-query()**</li><li>*Add code for different screen resolutions.*</li></ul>
+» [Setting The Alpha Channel For Items. Support Cross Browser.](#-setting-the-alpha-channel-for-items) | <ul><li>**@mixin opacity()**</li><li>*It adds an alpha channel to the elements.*</li></ul>
+» [Set Border Radius.](#-set-border-radius) | <ul><li>**@mixin border-radius()**</li><li>*Adds border radius.*</li></ul>
+» [Set Shorthand Animation.](#-set-shorthand-animation) | <ul><li>**@mixin animation()**</li><li>*It allows you to enter a name and animation features.*</li></ul>
+» [Animation Creator.](#-animation-creator) | <ul><li>**@mixin keyframes()**</li><li>*It allows us to define a new animation.*</li></ul>
+» [Transition.](#-transition) | <ul><li>**@mixin transition()**</li><li>*Transitions allows you to change property values smoothly (from one value to another), over a given duration.*</li></ul>
+» [2D Transforms.](#-2d-transforms) | <ul><li>**@mixin transform2d()**</li><li>*Transforms allow you to translate, rotate, scale, and skew elements.*</li></ul>
+» [3D Transforms.](#-3d-transforms) | <ul><li>**@mixin transform3d()**</li><li>*Allows you to format your elements using 3D transformations.*</li></ul>
+» [Change Input Placeholder Attributes.](#-change-input-placeholder-attributes) | <ul><li>**@mixin change-input-placeholder()**</li><li>*Use to change the input placeholders properties.*</li></ul>
+» [Horizontal Navigation Bar.](#-horizontal-navigation-bar) | <ul><li>**@mixin horizontal-navbar()**</li><li>*Use it to add a horizontal menu.*</li></ul>
+» [Vertical Navigation Bar.](#-vertical-navigation-bar) | <ul><li>**@mixin vertical-navbar()**</li><li>*Use it to add a vertical menu.*</li></ul>
+» [Dropdown.](#-dropdown) | <ul><li>**@mixin dropdown()**</li><li>*Add drop-down.*</li></ul>
+» [Tooltip.](#-tooltip) | <ul><li>**@mixin tooltip()**</li><li>*Add tooltip.*</li></ul>
+» [Box Shadow.](#-boshadow) | <ul><li>**@mixin boshadow()**</li><li>*Add box shadow.*</li></ul>
+» [Gradients.](#-gradients) | <ul><li>**@mixin gradient()**</li><li>*Add gradient.*</li></ul>
+» [Image Filters.](#-image-filters) | <ul><li>**@mixin image-filter()**</li><li>*Use it to add effects or filter to images.*</li></ul>
+» [Button animation.](#-button-animation) | <ul><li>**@mixin button-animation()**</li><li>*Create animated buttons.*</li></ul>
+» [Font Icon.](#-font-icon) | <ul><li>**@mixin icon()**</li><li>*Add icon in the color and size you want. There are 693 icons.*</li></ul>
+» [Font Selector.](#-font-selector) | <ul><li>**@mixin font()**</li><li>*Use practical way to add fonts to the elements.*</li></ul>
+» [Menu Button.](#-menu-button) | <ul><li>**@mixin menu-button()**</li><li>*Add menu button for mobile views.*</li></ul>
+» [Triangle.](#-triangle) | <ul><li>**@mixin triangle()**</li><li>*To add any element of the triangle.*</li></ul>
+» [Text Shadow.](#-text-shadow) | <ul><li>**@mixin text-shadow()**</li><li>*To add text element of the shadow.*</li></ul>
+» [Info Bar.](#-info-bar) | <ul><li>**@mixin infobar()**</li><li>*Add infobar on the screen.*</li></ul>
 
 * **Helpers »**
 
 Description | Feature
 ------------ | -------------
-» [Clearfix.](#-clearfix) | <ul><li>**%x-clearfix**</li><li>*A quick way to clean areas that are used to float.*</li></ul>
-» [Affix.](#-affix) | <ul><li>**%x-affix-top, %x-affix-bottom**</li><li>*Top or bottom to add a fixed area.*</li></ul>
+» [Clearfix.](#-clearfix) | <ul><li>**%clearfix**</li><li>*A quick way to clean areas that are used to float.*</li></ul>
+» [Affix.](#-affix) | <ul><li>**%affitop, %affibottom**</li><li>*Top or bottom to add a fixed area.*</li></ul>
 
 
 Functions
@@ -73,7 +205,7 @@ Functions
 
 ##### `» Pixel converts the "em" format.`
 * **Warning:** Specify the base font size before use. ($baseFontPixel default size 14px.)
-* **Function Name:** @function x-convert_em($fontPx)
+* **Function Name:** @function convert_em($fontPx)
 
 **Parameter Descriptions:**
 * @param **$fontPx:** *Font Size.*
@@ -83,7 +215,7 @@ Functions
 * SCSS:
 ```scss
 p {
-	font-size: x-convert_em(14px);
+	font-size: convert_em(14px);
 }
 ```
 
@@ -92,7 +224,7 @@ Mixins
 ----
 
 ##### `» CSS3 Prefix Adding.`
-* **Mixin Name:** @mixin x-prefix($property, $args...)
+* **Mixin Name:** @mixin prefix($property, $args...)
 
 **Parameter Descriptions:**
 * @param **$property:** *Css property name. Ex. "transition", "border-radius"...*
@@ -104,14 +236,14 @@ Mixins
 .box {
 	Width: 300px;
 	height: 300px;
-	@include x-prefix("border-radius", 5px);
+	@include prefix("border-radius", 5px);
 }
 ```
 
 
 ----
 ##### `» Responsive Media Selector.`
-* **Mixin Name:** @mixin x-media($media)
+* **Mixin Name:** @mixin media($media)
 
 **Parameter Descriptions:**
 * @param **($media)** *Can take values:*
@@ -126,7 +258,7 @@ Mixins
 * SCSS:
 ```scss
 nav[data="main-menu"] {
-	@include x-media($desktop) {
+	@include media($desktop) {
 		display: none;
 	}
 }
@@ -136,10 +268,10 @@ nav[data="main-menu"] {
 ----
 ##### `» Alternate Responsive Media Selector.`
 * This selective media can be entered in any desired resolution.
-* **Mixin Name:** @mixin x-media-query($width, $minMax: "max")
+* **Mixin Name:** @mixin media-query($width, $minMax: "max")
 
 **Parameter Descriptions:**
-* @param **$minMax:** *min or max. Default value: "max". (min-width, max-width)*
+* @param **$minMax:** *min or max. Default value: "max". (min-width, mawidth)*
 * @param **($width)** *Can take values:*
 	* **$cellphoneSize:** *Default size 320px.*
 	* **$smartphoneSize:** *Default size 480px.*
@@ -153,13 +285,13 @@ nav[data="main-menu"] {
 * SCSS:
 ```scss
 nav.nav-content {
-	@include x-media-query($desktop, "min") {
+	@include media-query($desktop, "min") {
 		display: none;
 	}
 }
 
 h1.caption {
-	@include x-media-query(300px) {
+	@include media-query(300px) {
 		font-size: 20%;
 	}
 }
@@ -168,7 +300,7 @@ h1.caption {
 
 ----
 ##### `» Setting The Alpha Channel For Items.`
-* **Mixin Name:** @mixin x-opacity($opacity: .85)
+* **Mixin Name:** @mixin opacity($opacity: .85)
 
 **Parameter Descriptions:**
 * @param **$opacity:** *0..1*
@@ -177,14 +309,14 @@ h1.caption {
 * SCSS:
 ```scss
 a:hover {
-	@include x-opacity(.7);
+	@include opacity(.7);
 }
 ```
 
 
 ----
 ##### `» Set Border Radius.`
-* **Mixin Name:** @mixin x-border-radius($radius)
+* **Mixin Name:** @mixin border-radius($radius)
 
 **Parameter Descriptions:**
 * @param **$radius:** *You know that ;)*
@@ -193,7 +325,7 @@ a:hover {
 * SCSS:
 ```scss
 div.box {
-	@include x-border-radius(15px);
+	@include border-radius(15px);
 }
 ```
 
@@ -201,7 +333,7 @@ div.box {
 ----
 ##### `» Set Shorthand Animation.`
 * **Tip:** *You can use this feature with keyframes*
-* **Mixin Name:** @mixin x-animation($args...)
+* **Mixin Name:** @mixin animation($args...)
 
 **Parameter Descriptions:**
 * @param **$args:**
@@ -221,14 +353,14 @@ div.anim {
 	position: relative;
 	background-color: red;
 
-	@include x-animation('example 4s 3 alternate');
+	@include animation('example 4s 3 alternate');
 }
 ```
 
 
 ----
 ##### `» Animation Creator.`
-* **Mixin Name:** @mixin x-keyframes($animationName)
+* **Mixin Name:** @mixin keyframes($animationName)
 * **Tip:** *[See those for features.][anim]*
 
 **Parameter Descriptions:**
@@ -237,7 +369,7 @@ div.anim {
 **Usage:**
 * SCSS:
 ```scss
-@include x-keyframes(example) {
+@include keyframes(example) {
 	0%   {background-color: red; left:0px; top:0px;}
 	25%  {background-color: yellow; left:200px; top:0px;}
 	50%  {background-color: blue; left:200px; top:200px;}
@@ -251,7 +383,7 @@ div.anim {
 	position: relative;
 	background-color: red;
 
-	@include x-animation('example 4s 3 alternate');
+	@include animation('example 4s 3 alternate');
 }
 ```
 
@@ -272,7 +404,7 @@ div.anim {
 ```scss
 a {
 	color: gray;
-	@include x-transition(color .3s ease);
+	@include transition(color .3s ease);
 
 	&:hover {
 		color: black;
@@ -287,7 +419,7 @@ header.navbar {
 	position: fixed;
 	margin: 0 auto;
 
-	@include x-transition(.4s);
+	@include transition(.4s);
 }
 
 .navbg-black {
@@ -299,7 +431,7 @@ header.navbar {
 
 ----
 ##### `» 2D Transforms.`
-* **Mixin Name:** @mixin x-transform2d($method)
+* **Mixin Name:** @mixin transform2d($method)
 * **Tip:** *[See at examples](http://www.w3schools.com/css/css3_2dtransforms.asp)*
 
 **Parameter Descriptions:**
@@ -308,7 +440,7 @@ header.navbar {
 	* translate(x,y), translateX(n), translateY(n),
 	* rotate(angle),
 	* scale(x,y), scaleX(n), scaleY(n),
-	* skew(x-angle, y-angle), skewX(angle), skewY(angle),
+	* skew(angle, y-angle), skewX(angle), skewY(angle),
 	* matrix(n,n,n,n,n,n)
 
 
@@ -316,7 +448,7 @@ header.navbar {
 * SCSS:
 ```scss
 div.rotate {
-	@include x-transform2d(rotate(20deg));
+	@include transform2d(rotate(20deg));
 }
 ```
 
@@ -338,14 +470,14 @@ div.rotate {
 * SCSS:
 ```scss
 div.rotate {
-	@include x-transform3d(rotateZ(90deg));
+	@include transform3d(rotateZ(90deg));
 }
 ```
 
 
 ----
 ##### `» Change Input Placeholder Attributes.`
-* **Mixin Name:** @mixin x-change-input-placeholder()
+* **Mixin Name:** @mixin change-input-placeholder()
 * Supported placeholder styles:
 	* font
 	* color
@@ -363,7 +495,7 @@ div.rotate {
 * SCSS:
 ```scss
 input[type="email"] {
-	@include x-change-input-placeholder() {
+	@include change-input-placeholder() {
 		color: orange;
 	}
 }
@@ -372,7 +504,7 @@ input[type="email"] {
 
 ----
 ##### `» Vertical Navigation Bar.`
-* **Mixin Name:** @mixin x-vertical-navbar(
+* **Mixin Name:** @mixin vertical-navbar(
 	* **$width:** 100%,
 	* **$bgColor:** #f1f1f1,
 	* **$textColor:** #000,
@@ -414,7 +546,7 @@ input[type="email"] {
 * SCSS:
 ```scss
 #nav {
-	@include x-vertical-navbar(300px);
+	@include vertical-navbar(300px);
 }
 ```
 * HTML:
@@ -433,7 +565,7 @@ input[type="email"] {
 * SCSS:
 ```scss
 #nav {
-	@include x-vertical-navbar($width:150px, $isFullHeight:true);
+	@include vertical-navbar($width:150px, $isFullHeight:true);
 }
 ```
 * HTML:
@@ -451,7 +583,7 @@ input[type="email"] {
 
 ----
 ##### `» Horizontal Navigation Bar.`
-* **Mixin Name:** @mixin x-horizontal-navbar(
+* **Mixin Name:** @mixin horizontal-navbar(
 	* **$bgColor:** #333,
 	* **$textColor:** white,
 	* **$hoverBgColor:** #111,
@@ -471,7 +603,7 @@ input[type="email"] {
 * SCSS:
 ```scss
 #nav {
-	@include x-horizontal-navbar($isDivider:true);
+	@include horizontal-navbar($isDivider:true);
 }
 ```
 * HTML:
@@ -489,7 +621,7 @@ input[type="email"] {
 
 ----
 ##### `» Dropdown.`
-* **Mixin Name:** @mixin x-dropdown(
+* **Mixin Name:** @mixin dropdown(
 	*	**$btnBgColor:** #4CAF50,
 	*	**$btnTextColor:** white,
 	*	**$contentWidth:** 160px,
@@ -507,7 +639,7 @@ input[type="email"] {
 * SCSS:
 ```scss
 #drop {
-	 @include x-dropdown();
+	 @include dropdown();
 }
 ```
 * HTML:
@@ -527,7 +659,7 @@ input[type="email"] {
 
 ----
 ##### `» Tooltip.`
-* **Mixin Name:** @mixin x-tooltip(
+* **Mixin Name:** @mixin tooltip(
 	*	**$position:** top,
 	*	**$bgColor:** #000,
 	*	**$textColor:** #fff,
@@ -543,7 +675,7 @@ input[type="email"] {
 * SCSS:
 ```scss
 #tooltip {
-	@include x-tooltip(bottom, $height: 10px);
+	@include tooltip(bottom, $height: 10px);
 }
 ```
 * HTML:
@@ -558,7 +690,7 @@ input[type="email"] {
 
 ----
 ##### `» Box Shadow.`
-* **Mixin Name:** @mixin x-box-shadow($args...)
+* **Mixin Name:** @mixin boshadow($args...)
 
 **Parameter Descriptions:**
 * @param **$args:** *Values(Horizontal shadow, Vertical shadow, Blur, Shadow color)*
@@ -569,7 +701,7 @@ input[type="email"] {
 .box {
 	width: 300px;
 	height: 200px;
-	@include x-box-shadow(0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19));
+	@include boshadow(0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19));
 }
 ```
 * HTML:
@@ -580,7 +712,7 @@ input[type="email"] {
 
 ----
 ##### `» Gradients.`
-* **Mixin Name:** @mixin x-gradient($type: linear, $style: diagonal, $args...)
+* **Mixin Name:** @mixin gradient($type: linear, $style: diagonal, $args...)
 * **Tip:** *[See at examples.](http://www.w3schools.com/css/css3_gradients.asp)*
 
 **Parameter Descriptions:**
@@ -595,7 +727,7 @@ input[type="email"] {
 .grad {
 	Width: 300px;
 	height: 150px;
-	@include x-gradient($args: #000, #fff);
+	@include gradient($args: #000, #fff);
 }
 ```
 * HTML:
@@ -609,7 +741,7 @@ input[type="email"] {
 .grad {
 	Width: 300px;
 	height: 150px;
-	@include x-gradient($style: angle, $angle: -90deg, $args: #000, #fff);
+	@include gradient($style: angle, $angle: -90deg, $args: #000, #fff);
 }
 ```
 * HTML:
@@ -620,7 +752,7 @@ input[type="email"] {
 
 ----
 ##### `» Image Filters.`
-* **Mixin Name:** @mixin x-image-filter($filterType: grayscale, $args...)
+* **Mixin Name:** @mixin image-filter($filterType: grayscale, $args...)
 * **Warning:** IE not supported. EDGE supported.
 
 **Parameter Descriptions:**
@@ -643,7 +775,7 @@ input[type="email"] {
 * SCSS:
 ```scss
 .filter {
-	@include x-image-filter(blur, 5px);
+	@include image-filter(blur, 5px);
 }
 ```
 * HTML:
@@ -657,11 +789,11 @@ input[type="email"] {
 * SCSS:
 ```scss
 #nav ul li a {
-	@include x-image-filter($args: 100%);
-	@include x-transition(.3s);
+	@include image-filter($args: 100%);
+	@include transition(.3s);
 
 	&:hover {
-  	@include x-image-filter($args: 0);
+  	@include image-filter($args: 0);
   }
 }
 ```
@@ -678,7 +810,7 @@ input[type="email"] {
 
 ----
 ##### `» Button animation.`
-* **Mixin Name:** @mixin x-button-animation($content: '»')
+* **Mixin Name:** @mixin button-animation($content: '»')
 * **Tip:** *You can use icon fonts.*
 
 **Parameter Descriptions:**
@@ -700,7 +832,7 @@ input[type="email"] {
 	cursor: pointer;
 	margin: 5px;
 
-	@include x-button-animation();
+	@include button-animation();
 }
 ```
 * HTML:
@@ -713,7 +845,7 @@ input[type="email"] {
 
 ----
 ##### `» Font Icon.`
-* **Mixin Name:** @mixin x-icon(
+* **Mixin Name:** @mixin icon(
 	* $icon,
 	* $direction: right,
 	* $size: 14px,
@@ -733,10 +865,10 @@ input[type="email"] {
 ```scss
 .chart {
 	color: white;
-	@include x-font('m', 20px);
+	@include font('m', 20px);
 
 	i {
-		@include x-icon($f-bar-chart, $color: white);
+		@include icon($f-bar-chart, $color: white);
 	}
 }
 ```
@@ -751,7 +883,7 @@ input[type="email"] {
 
 ----
 ##### `» Font Selector.`
-* **Mixin Name:** @mixin x-font(
+* **Mixin Name:** @mixin font(
 	* $fontType: 'r',
 	* $size: $baseFontPixel,
 	* $spacing: 0.5px,
@@ -781,7 +913,7 @@ input[type="email"] {
 * SCSS:
 ```scss
 .caption {
-	@include x-font('m', 18px);
+	@include font('m', 18px);
 }
 ```
 * HTML:
@@ -792,7 +924,7 @@ input[type="email"] {
 
 ----
 ##### `» Menu Button.`
-* **Mixin Name:** @mixin x-menu-button(
+* **Mixin Name:** @mixin menu-button(
 	* **$color:** $white,
 	* **$position:** right,
 	* **$radius:** 2px,
@@ -818,7 +950,7 @@ input[type="email"] {
 * SCSS:
 ```scss
 #menu-btn {
-	@include x-menu-button($radius:0);
+	@include menu-button($radius:0);
 }
 
 //Paste this is class main CSS file.
@@ -832,8 +964,8 @@ input[type="email"] {
 		}
 
 		//If the position of the button is left, change in the plus with the minus.
-		&:before {@include x-transform2d(rotate(45deg))}
-		&:after {@include x-transform2d(rotate(-45deg))}
+		&:before {@include transform2d(rotate(45deg))}
+		&:after {@include transform2d(rotate(-45deg))}
 	}
 }
 ```
@@ -865,7 +997,7 @@ $("#menu-btn").click(function() {
 
 ----
 ##### `» Triangle.`
-* **Mixin Name:** @mixin x-triangle(
+* **Mixin Name:** @mixin triangle(
 	* **$color:** #111,
   * **$borderColor:** $color,
   * **$borderWidth:** 1px,
@@ -896,8 +1028,8 @@ $("#menu-btn").click(function() {
 	color: $white;
 	font-size: 20px;
 
-	@include x-border-radius(5px);
-	@include x-triangle(#813efa, $direction: right);
+	@include border-radius(5px);
+	@include triangle(#813efa, $direction: right);
 }
 ```
 
@@ -911,7 +1043,7 @@ $("#menu-btn").click(function() {
 
 ----
 ##### `» Text Shadow.`
-* **Mixin Name:** @mixin x-text-shadow($args...)
+* **Mixin Name:** @mixin text-shadow($args...)
 
 * **Parameter Descriptions:**
 * @param **$args:** *h-shadow, v-shadow, blur-radius, color. Default value: 1px 1px 5px rgba(0, 0, 0, .4).*
@@ -921,7 +1053,7 @@ $("#menu-btn").click(function() {
 * SCSS:
 ```scss
 .caption {
-  @include x-text-shadow();
+  @include text-shadow();
 }
 ```
 
@@ -935,7 +1067,7 @@ $("#menu-btn").click(function() {
 
 ----
 ##### `» Info Bar.`
-* **Mixin Name:** @mixin x-infobar($position: "bottom-right", $distance: 20px)
+* **Mixin Name:** @mixin infobar($position: "bottom-right", $distance: 20px)
 
 * **Parameter Descriptions:**
 * @param **$position:** *Info bar position. Default value: "bottom-right".*
@@ -946,7 +1078,7 @@ $("#menu-btn").click(function() {
 * SCSS:
 ```scss
 #info {
-  @include x-infobar();
+  @include infobar();
 }
 ```
 
@@ -971,14 +1103,14 @@ $(document).ready(function() {
 Helpers
 ----
 ##### `» Clearfix.`
-* **Helper Name:** %x-clearfix
+* **Helper Name:** %clearfix
 
 **Usage:**
 * SCSS:
 ```scss
 .container {
 	background-color: #f1f1f1;
-	@extend %x-clearfix;
+	@extend %clearfix;
 }
 
 .wrapper {
@@ -1000,14 +1132,14 @@ Helpers
 
 ----
 ##### `» Affix.`
-* Helper Name: %x-affix-top, %x-affix-bottom
+* Helper Name: %affitop, %affibottom
 
 **Usage:**
 * SCSS:
 ```scss
 .bottom-menu {
 	height: 200px;
-	@extend %x-affix-bottom;
+	@extend %affibottom;
 }
 ```
 * HTML:
@@ -1019,7 +1151,7 @@ Helpers
 Tools
 ----
 ##### `» 12 Columns Responsive Grid System.`
-> 12 column grid system that is fully compatible with the `xcode` library.
+> 12 column grid system that is fully compatible with the this library.
 
 **Usage:**
 * *Use main layout adding:*
@@ -1031,21 +1163,8 @@ Tools
 
 
 ----
-##### `» 16 Columns Responsive Grid System.`
-> 16 column grid system that is fully compatible with the `xcode` library.
-
-**Usage:**
-* *Use main layout adding:*
-```erb
-...
-<%= stylesheet_link_tag :grid16 %>
-...
-```
-
-
-----
 ##### `» Reset CSS.`
-> Structured according to these libraries css reset. **Tip:** *This is already attached to the grid system.*
+> Structured according to these libraries css reset.
 
 
 Version History
@@ -1066,7 +1185,7 @@ Version History
 * **Mixin added:** Image Filter.
 
 **v.1.2.1**
-* **Minor fixed:** @mixin x-prefix($property, $args...)
+* **Minor fixed:** @mixin prefix($property, $args...)
 	* Rewritten DRY.
 * **Mixin deprecated:** @mixin grayscale($percent)
 	* Instead of Image Filter use.
@@ -1101,7 +1220,7 @@ Version History
 * **Tool added:** Reset CSS.
 
 **v.1.5.2**
-* **Minor fixed:** %affix change name to %affix-top, %affix-bottom
+* **Minor fixed:** %affix change name to %affitop, %affibottom
 * **Minor fixed:** normalize.css bug fixed.
 
 **v.1.5.3**
@@ -1117,7 +1236,7 @@ Version History
 **v.1.6.1**
 * **Minor change:** 480px removed to grid system.
 * **Minor change:** *$padding* added variable grid system.
-* **Improvement:** @mixin x-media-query(), has been made more convenient.
+* **Improvement:** @mixin media-query(), has been made more convenient.
 * **Error fixed:** 16 columns grid system bug fixed.
 * **Minor fixed:** @mixin h-navbar() and @mixin v-navbar(): The name confusion was fixed.
 * **Minor change:** "12columnsGrid" file name changed to "grid12".
@@ -1127,18 +1246,18 @@ Version History
 * **Mixin added:** Triangle.
 
 **v.1.7.1**
-* **Minor fixed:** @mixin x-font() -> Will alert "$baseFontName" value is not entered.
+* **Minor fixed:** @mixin font() -> Will alert "$baseFontName" value is not entered.
 
 **v.2.0.0**
 * **Mixin deleted:** @mixin grayscale($percent).
-* **Minor fixed:** @mixin x-horizontal-navbar() -> Link width and height adjustable.
-* **Minor fixed:** @mixin x-menu-button() -> Border option added.
+* **Minor fixed:** @mixin horizontal-navbar() -> Link width and height adjustable.
+* **Minor fixed:** @mixin menu-button() -> Border option added.
 * **Minor fixed:** Edited all of the descriptions in the library.
 * **Major fixed:** All mixins and functions prefix "x" was added.
 
 **v.2.0.1**
-* **Minor fixed:** @mixin x-media-query() -> Variable is $minMax adding default value "max".
-* **Mixin changed:** @mixin x-vertical-navbar() ->
+* **Minor fixed:** @mixin media-query() -> Variable is $minMax adding default value "max".
+* **Mixin changed:** @mixin vertical-navbar() ->
   * **Default value changed:** $width: 200px change to $width: 100%.
   * **New variable added:** $textAlign. Values(left, center, right). Default value: left.
   * **New variable added:** $linkPadding. Values(top, right, bottom, left). Default value: 8px 0 8px 16px.
@@ -1150,27 +1269,27 @@ Version History
   * **New variable added:** $isBoxShadow. Values(true or false). Default value: false.
   * **New variable added:** $shadowColor. Default color: rgba(0, 0, 0, 0.2).
   * **Class fixed:** This .active class change it. Adding "!important ".
-* **Mixin changed:** @mixin x-horizontal-navbar() ->
+* **Mixin changed:** @mixin horizontal-navbar() ->
   * **New variable added:** $isCenter. Default value: false.
   * **Class fixed:** This .active class change it. Adding "!important ".
-* **Minor fixed and changed:** @mixin x-menu-button() ->
+* **Minor fixed and changed:** @mixin menu-button() ->
   * **Class fixed:** This .menu-active class changed.Change in the plus with the minus.
   * **New variable added:** $isBorderRadius. Values(true or false). Default value: false.
   * **New variable added:** $borderRadius. Default value: 3px.
-* **Minor fixed:** @mixin x-triangle() -> Added browser support feature.
+* **Minor fixed:** @mixin triangle() -> Added browser support feature.
 
 **v.2.1.1**
 * **Mixin added:** Text Shadow.
 * **Mixin added:** Info Bar.
 
 **v.2.1.2**
-* **Mixin changed:** @mixin x-media-query() ->
+* **Mixin changed:** @mixin media-query() ->
   * **Warning:** Your project using the previous version, correct the place changes to your project.
   * **Variables changed:** $minMax and $width the place has changed.
   * **Minor fixed:** Performance is  improvement.
 
 **v.2.1.3**
-* **Mixin changed:** @mixin x-triangle() ->
+* **Mixin changed:** @mixin triangle() ->
   * **New variable added:** $borderColor: Triangle border color. Default color: $color.
   * **New variable added:** $borderWidth: Triangle border width. Default size: 1px.
 
@@ -1178,18 +1297,19 @@ Version History
 * **Helper class added:** Grid systems ".hidden-lg", ".hidden-md", ".hidden-sm", ".hidden-xs" added.
 
 
-Author
-----
-Levent Özbilgiç - XCODE
+## License
 
+MIT License
 
-License
-----
+## Other License
 
-* [MIT](https://github.com/ozbilgic/sass-mixin-css-framework/blob/master/LICENSE) 2016 - XCODE
 * [Font Avesome](https://fortawesome.github.io/Font-Awesome/license/)
 * [Bootstrap](https://github.com/twbs/bootstrap/blob/master/LICENSE)
 * [Normalize.css](https://github.com/necolas/normalize.css/blob/master/LICENSE.md)
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first.
 
 
 [anim]:<http://www.w3schools.com/cssref/css_animatable.asp>
